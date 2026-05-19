@@ -76,8 +76,23 @@ export const login = async (req, res) => {
 };
 
 
-
 import Student from "../models/Student.js";
+
+
+export const createStudent = async (req, res) => {
+  try {
+    const student = await Student.create(req.body);
+
+    return res.status(201).json({
+      success: true,
+      message: "Student Created Successfully",
+      student,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+    });
+  }
 };
 
 export const getAllStudents = async (req, res) => {
@@ -152,3 +167,7 @@ export const deleteStudent = async (req, res) => {
     });
   }
 };
+
+
+
+
