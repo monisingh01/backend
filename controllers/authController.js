@@ -74,3 +74,81 @@ export const login = async (req, res) => {
     });
   }
 };
+
+
+
+import Student from "../models/Student.js";
+};
+
+export const getAllStudents = async (req, res) => {
+  try {
+    const students = await Student.find();
+
+    return res.status(200).json({
+      success: true,
+      students,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
+export const getSingleStudent = async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id);
+
+    if (!student) {
+      return res.status(404).json({
+        message: "Student not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      student,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
+export const updateStudent = async (req, res) => {
+  try {
+    const student = await Student.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Student Updated Successfully",
+      student,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
+export const deleteStudent = async (req, res) => {
+  try {
+    await Student.findByIdAndDelete(req.params.id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Student Deleted Successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+    });
+  }
+};
